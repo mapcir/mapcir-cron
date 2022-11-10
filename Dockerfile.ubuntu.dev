@@ -1,0 +1,42 @@
+# DOCKER: 		
+# $ docker build --progress=plain -t mapcir-cron-dev-ubuntu -f Dockerfile.ubuntu.dev .
+# $ docker run -it -v $(pwd):/var/mapcir/source --name mapcir-cron-dev-ubuntu mapcir-cron-dev-ubuntu
+
+From ubuntu:22.04
+
+LABEL version="1.0"
+LABEL maintainer="mapcir@outlook.com"
+LABEL description="Mapcir Cron - Lightweight job scheduling for Linux"
+LaBEL website="https://mapcir.io"
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV ROOT_DIR /var/mapcir
+ENV SOURCE_DIR ${ROOT_DIR}/source
+ENV THIRDPARTY_DIR ${ROOT_DIR}/thirdparty
+
+# update ubuntu && and install packages
+RUN apt-get update \
+	&& apt upgrade -y \
+    && apt-get install -y build-essential
+
+# install cmake
+RUN apt-get install -y cmake
+
+# install git
+RUN apt-get install -y git
+
+# make workdirs
+RUN mkdir ${ROOT_DIR}
+RUN mkdir ${SOURCE_DIR}
+RUN mkdir ${THIRDPARTY_DIR}
+
+# build nlohmann::json
+WORKDIR ${THIRDPARTY_DIR}
+RUN git clone https://github.com/nlohmann/json.git
+RUN mkdir json/build
+WORKDIR ${THIRDPARTY_DIR}/json/build
+RUN cmake ..
+RUN make && make install
+
+# workdir
+WORKDIR ${SOURCE_DIR}/build

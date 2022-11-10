@@ -1,32 +1,23 @@
-# Prerequisites
-*.d
+.env
+sftp-config.json
+.vscode
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+build/
+dist/
+target/
+.idea/
 
-# Precompiled Headers
-*.gch
-*.pch
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+TEST*.xml
+.DS_Store
+Thumbs.db
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
 *.app
+*.exe
+*.war
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
