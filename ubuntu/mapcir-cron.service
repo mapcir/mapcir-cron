@@ -1,0 +1,34 @@
+# $ sudo ln -s {YOUR_PATH}/mapcir-cron.service /etc/systemd/system/mapcir-cron.service
+# $ sudo systemctl daemon-reload
+# $ sudo systemctl enable mapcir-cron
+# $ sudo systemctl start mapcir-cron
+
+[Unit]
+Description=Mapcir Cron - Lightweight job scheduling for Linux.
+After=syslog.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile = {YOUR_PATH}/mapcir-cron.pid
+
+WorkingDirectory={YOUR_PATH}
+User=root
+Group=root
+
+ExecStart = {YOUR_PATH}/mapcir-cron.sh start
+ExecStop = {YOUR_PATH}/mapcir-cron.sh stop
+ExecReload = {YOUR_PATH}/mapcir-cron.sh restart
+
+PrivateTmp=true
+Restart = on-failure
+RestartSec=10
+SuccessExitStatus = 200
+
+#StandardOutput=append:{YOUR_PATH}/logs/request.log
+#StandardError=append:{YOUR_PATH}/logs/error.log
+#SyslogIdentifier=appgoservice
+
+[Install]
+WantedBy = multi-user.target
+Alias = mapcir-cron
